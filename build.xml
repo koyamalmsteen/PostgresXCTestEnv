@@ -42,7 +42,7 @@
     </exec>
     <!-- -->
     <exec executable="chown">
-      <arg line="-R pgsql.pgsql /usr/local/pgsql"/>
+      <arg line="-R postgres.postgres /usr/local/pgsql"/>
     </exec>
     <exec executable="sudo">
       <arg line="-i -u postgres initdb --no-locale --encoding=UTF-8 --nodename=foo"/>
