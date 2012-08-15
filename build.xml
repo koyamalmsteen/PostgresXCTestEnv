@@ -45,17 +45,17 @@
       <arg line="-R pgsql.pgsql /usr/local/pgsql"/>
     </exec>
     <exec executable="sudo">
-      <arg line="-i -u pgsql initdb --no-locale --encoding=UTF-8 --nodename=foo"/>
+      <arg line="-i -u postgres initdb --no-locale --encoding=UTF-8 --nodename=foo"/>
     </exec>
     <exec executable="sudo">
-      <arg line="-i -u pgsql createdb dspace"/>
+      <arg line="-i -u postgres createdb dspace"/>
     </exec>
     <!-- -->
     <exec executable="sudo">
-      <arg line="-i -u pgsql initgtm -Z gtm -D /usr/local/pgsql/data_gtm"/>
+      <arg line="-i -u postgres initgtm -Z gtm -D /usr/local/pgsql/data_gtm"/>
     </exec>
     <exec executable="sudo">
-      <arg line="-i -u pgsql gtm_ctl -Z gtm start -D /usr/local/pgsql/data_gtm"/>
+      <arg line="-i -u postgres gtm_ctl -Z gtm start -D /usr/local/pgsql/data_gtm"/>
     </exec>
     <!-- -->
     <exec executable="adduser">
