@@ -21,7 +21,7 @@
     <delete dir="/usr/local/pgsql"/>
     <!-- -->
     <exec executable="yum">
-      <arg line="-y install gcc readline-devel zlib-devel"/>
+      <arg line="-y install gcc readline-devel zlib-devel flex bison"/>
     </exec>
     <mkdir dir="${src}"/>
     <get src="${src_postgres_xc}" dest="${dst_postgres_xc}" usetimestamp="true"/>
