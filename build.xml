@@ -14,14 +14,12 @@
     <echo file="/etc/profile" message="export MANPATH=${MANPATH}:/usr/local/pgsql/man&#x0A;" append="yes"/>
     <echo file="/etc/profile" message="export PGDATA=/usr/local/pgsql/data&#x0A;" append="yes"/>
     <!-- -->
-    <exec executable="useradd">
-      <arg line="-c Server -d /usr/local/pgsql pgsql"/>
-    </exec>
     <delete dir="/usr/local/pgsql"/>
     <!-- -->
     <exec executable="yum">
       <arg line="-y install gcc readline-devel zlib-devel"/>
     </exec>
+    <mkdir dir="${src}"/>
     <get src="${src_postgres_xc}" dest="${dst_postgres_xc}" usetimestamp="true"/>
     <exec dir="${src}" executable="tar">
       <arg line="zxf ${postgres_xc}"/>
@@ -54,6 +52,65 @@
     </exec>
     <exec executable="sudo">
       <arg line="-i -u pgsql gtm_ctl -Z gtm start -D /usr/local/pgsql/data_gtm"/>
+    </exec>
+    <!-- -->
+    <exec executable="adduser">
+      <arg line="postgres"/>
+    </exec>
+    <mkdir dir="/usr/local/pgsql/data_coord1"/>
+    <mkdir dir="/usr/local/pgsql/data_Datanode1"/>
+    <mkdir dir="/usr/local/pgsql/data_Datanode2"/>
+    <mkdir dir="/usr/local/pgsql/data_gtm"/>
+    <exec executable="chown">
+      <arg line="postgres /usr/local/pgsql/data_coord1"/>
+    </exec>
+    <exec executable="chown">
+      <arg line="postgres /usr/local/pgsql/data_Datanode1"/>
+    </exec>
+    <exec executable="chown">
+      <arg line="postgres /usr/local/pgsql/data_Datanode2"/>
+    </exec>
+    <exec executable="chown">
+      <arg line="postgres /usr/local/pgsql/data_gtm"/>
+    </exec>
+    <exec executable="sudo">
+      <arg line="/usr/local/pgsql/bin/initdb -D /usr/local/pgsql/data_coord1 --nodename coord1"/>
+    </exec>
+    <exec executable="sudo">
+      <arg line="/usr/local/pgsql/bin/initdb -D /usr/local/pgsql/data_Datanode1 --nodename Datanode1"/>
+    </exec>
+    <exec executable="sudo">
+      <arg line="/usr/local/pgsql/bin/initdb -D /usr/local/pgsql/data_Datanode2 --nodename Datanode2"/>
+    </exec>
+    <exec executable="sudo">
+      <arg line="/usr/local/pgsql/bin/initgtm -D /usr/local/pgsql/data_gtm -Z gtm"/>
+    </exec>
+    <exec executable="sudo">
+      <arg line="/usr/local/pgsql/bin/gtm -D /usr/local/pgsql/data_gtm > logfile 2>&1 &"/>
+    </exec>
+    <exec executable="sudo">
+      <arg line="/usr/local/pgsql/bin/postgres -X -p 15432 -D /usr/local/pgsql/data_Datanode1 > logfile 2>&1 &"/>
+    </exec>
+    <exec executable="sudo">
+      <arg line="/usr/local/pgsql/bin/postgres -X -p 15433 -D /usr/local/pgsql/data_Datanode2 > logfile 2>&1 &"/>
+    </exec>
+    <exec executable="sudo">
+      <arg line="/usr/local/pgsql/bin/postgres -C -D /usr/local/pgsql/data_coor1 > logfile 2>&1 &"/>
+    </exec>
+    <exec executable="sudo">
+      <arg line="/usr/local/pgsql/bin/psql -C 'CREATE NODE Datanode1 WITH (TYPE = 'Datanode', PORT = 15432)' postgres"/>
+    </exec>
+    <exec executable="sudo">
+      <arg line="/usr/local/pgsql/bin/psql -C 'CREATE NODE Datanode2 WITH (TYPE = 'Datanode', PORT = 15433)' postgres"/>
+    </exec>
+    <exec executable="sudo">
+      <arg line="/usr/local/pgsql/bin/psql -c "SELECT pgxc_pool_reload()" postgres"/>
+    </exec>
+    <exec executable="sudo">
+      <arg line="/usr/local/pgsql/bin/createdb test"/>
+    </exec>
+    <exec executable="sudo">
+      <arg line="/usr/local/pgsql/bin/psql test"/>
     </exec>
   </target>
 
