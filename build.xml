@@ -13,9 +13,12 @@
     <echo file="/etc/profile" message="export PATH=${PATH}:/usr/local/pgsql/bin&#x0A;" append="yes"/>
     <echo file="/etc/profile" message="export MANPATH=${MANPATH}:/usr/local/pgsql/man&#x0A;" append="yes"/>
     <echo file="/etc/profile" message="export PGDATA=/usr/local/pgsql/data&#x0A;" append="yes"/>
-
-
-
+    <!-- -->
+    <exec executable="useradd">
+      <arg line="-c Server -d /usr/local/pgsql pgsql"/>
+    </exec>
+    <delete dir="/usr/local/pgsql"/>
+    <!-- -->
     <exec executable="yum">
       <arg line="-y install gcc readline-devel zlib-devel"/>
     </exec>
@@ -34,6 +37,23 @@
     </exec>
     <exec executable="make" dir="${src}/pgxc">
       <arg line="install"/>
+    </exec>
+    <!-- -->
+    <exec executable="chown">
+      <arg line="-R pgsql.pgsql /usr/local/pgsql"/>
+    </exec>
+    <exec executable="sudo">
+      <arg line="-i -u pgsql initdb --no-locale --encoding=UTF-8 --nodename=foo"/>
+    </exec>
+    <exec executable="sudo">
+      <arg line="-i -u pgsql createdb dspace"/>
+    </exec>
+    <!-- -->
+    <exec executable="sudo">
+      <arg line="-i -u pgsql initgtm -Z gtm -D /usr/local/pgsql/data_gtm"/>
+    </exec>
+    <exec executable="sudo">
+      <arg line="-i -u pgsql gtm_ctl -Z gtm start -D /usr/local/pgsql/data_gtm"/>
     </exec>
   </target>
 
