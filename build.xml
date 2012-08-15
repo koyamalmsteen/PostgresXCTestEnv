@@ -76,37 +76,38 @@
       <arg line="-i -u postgres initgtm -D /usr/local/pgsql/data_gtm -Z gtm"/>
     </exec>
     <!-- -->
-<!--
-    <exec executable="sudo" spawn="true">
-      <arg line="-i -u postgres gtm -D /usr/local/pgsql/data_gtm &gt;logfile 2&gt;&amp;1"/>
+    <exec executable="sudo">
+      <arg line="-i -u postgres gtm_ctl -Z gtm -D /usr/local/pgsql/data_gtm -l logfile start"/>
     </exec>
+    <exec executable="sudo">
+<!--
+      <arg line="-i -u postgres pg_ctl -Z coordinator -D /usr/local/pgsql/data_datanode1 -o '-p 15432' -l logfile start"/>
 -->
-    <exec executable="sudo">
-      <arg line="-i -u postgres sh -c"/>
-      <arg line="gtm -D /usr/local/pgsql/data_gtm &gt;logfile 2&gt;&amp;1"/>
+      <arg line="-i -u postgres pg_ctl -Z coordinator -D /usr/local/pgsql/data_datanode1 -l logfile start"/>
     </exec>
-    <!-- -->
-    <echo message="HOGE"/>
     <exec executable="sudo">
-      <arg line="-i -u postgres postgres -X -p 15432 -D /usr/local/pgsql/data_datanode1 &gt;logfile 2&gt;&amp;1"/>
-    </exec>
-    <echo message="-i -u postgres postgres -X -p 15432 -D /usr/local/pgsql/data_datanode1 &gt;logfile 2&gt;&amp;1"/>
-    <echo message="HOGE2"/>
 <!--
-    <exec executable="sudo" spawn="true">
-      <arg line="-i -u postgres postgres -X -p 15433 -D /usr/local/pgsql/data_datanode2 &gt;logfile 2&gt;&amp;1"/>
+      <arg line="-i -u postgres pg_ctl -Z coordinator -D /usr/local/pgsql/data_datanode2 -o '-p 15433' -l logfile start"/>
+-->
+      <arg line="-i -u postgres pg_ctl -Z coordinator -D /usr/local/pgsql/data_datanode2 -l logfile start"/>
     </exec>
     <exec executable="sudo" spawn="true">
+<!--
       <arg line="-i -u postgres postgres -C -D /usr/local/pgsql/data_coord1 &gt;logfile 2&gt;&amp;1"/>
-    </exec>
 -->
+      <arg line="-i -u postgres pg_ctl -Z coordinator -D /usr/local/pgsql/data_coord1 -l logfile start"/>
+    </exec>
+    <echo message="HOGE"/>
     <!-- -->
+    <exec executable="sudo">
+<!--
+      <arg line="-i -u postgres psql -c &quot;CREATE NODE datanode1 WITH (TYPE='datanode', PORT=15432)&quot; postgres"/>
+-->
+      <arg line="-i -u postgres psql -c &quot;CREATE NODE datanode1 WITH TYPE='datanode' WITH PORT=15432 &quot; postgres"/>
+    </exec>
 <!--
     <exec executable="sudo">
-      <arg line="-i -u postgres psql -c &quot;CREATE NODE datanode1 WITH (TYPE=&apos;datanode&apos;, PORT=15432)&quot; postgres"/>
-    </exec>
-    <exec executable="sudo">
-      <arg line="-i -u postgres psql -c &quot;CREATE NODE datanode2 WITH (TYPE=&apos;datanode&apos;, PORT=15433)&quot; postgres"/>
+      <arg line="-i -u postgres psql -c &quot;CREATE NODE datanode2 WITH (TYPE='datanode', PORT=15433)&quot; postgres"/>
     </exec>
     <exec executable="sudo">
       <arg line="-i -u postgres psql -c &quot;SELECT pgxc_pool_reload()&quot; postgres"/>
