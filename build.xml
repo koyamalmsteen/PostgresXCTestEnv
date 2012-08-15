@@ -1,0 +1,28 @@
+<project name="Postgres-XC Test Environment" default="all" basedir=".">
+  <property file="build.properties"/>
+  <property environment="env"/>
+  <property name="hostname" value="${env.HOSTNAME}"/>
+  <property name="home" value="${env.HOME}"/>
+
+  <target name="all" depends="init, install"/>
+
+  <target name="init">
+    <exec executable="yum">
+      <arg line="-y install gcc readline-devel zlib-devel"/>
+    </exec>
+    <get src="${src_postgres_xc}" dest="${dst_postgres_xc}" usetimestamp="true"/>
+    <exec dir="${src}" executable="tar">
+      <arg line="zxf ${postgres_xc}"/>
+    </exec>
+  </target>
+
+  <target name="install">
+    <exec executable="configure">
+      <arg line=""/>
+    </exec>
+    <exec executable="make">
+      <arg line=""/>
+    </exec>
+  </target>
+
+</project>
