@@ -7,6 +7,15 @@
   <target name="all" depends="init, install"/>
 
   <target name="init">
+    <echo file="/etc/profile" message="#&#x0A;" append="yes"/>
+    <echo file="/etc/profile" message="export PGLIB=/usr/local/pgsql/lib&#x0A;" append="yes"/>
+    <echo file="/etc/profile" message="export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:$PGLIB&#x0A;" append="yes"/>
+    <echo file="/etc/profile" message="export PATH=${PATH}:/usr/local/pgsql/bin&#x0A;" append="yes"/>
+    <echo file="/etc/profile" message="export MANPATH=${MANPATH}:/usr/local/pgsql/man&#x0A;" append="yes"/>
+    <echo file="/etc/profile" message="export PGDATA=/usr/local/pgsql/data&#x0A;" append="yes"/>
+
+
+
     <exec executable="yum">
       <arg line="-y install gcc readline-devel zlib-devel"/>
     </exec>
@@ -17,11 +26,14 @@
   </target>
 
   <target name="install">
-    <exec executable="configure">
+    <exec executable="./configure" dir="${src}/pgxc">
       <arg line=""/>
     </exec>
-    <exec executable="make">
+    <exec executable="make" dir="${src}/pgxc">
       <arg line=""/>
+    </exec>
+    <exec executable="make" dir="${src}/pgxc">
+      <arg line="install"/>
     </exec>
   </target>
 
