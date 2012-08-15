@@ -41,6 +41,10 @@
       <arg line="install"/>
     </exec>
     <!-- -->
+    <exec executable="adduser">
+      <arg line="postgres"/>
+    </exec>
+    <!-- -->
     <exec executable="chown">
       <arg line="-R postgres.postgres /usr/local/pgsql"/>
     </exec>
@@ -58,9 +62,6 @@
       <arg line="-i -u postgres gtm_ctl -Z gtm start -D /usr/local/pgsql/data_gtm"/>
     </exec>
     <!-- -->
-    <exec executable="adduser">
-      <arg line="postgres"/>
-    </exec>
     <mkdir dir="/usr/local/pgsql/data_coord1"/>
     <mkdir dir="/usr/local/pgsql/data_Datanode1"/>
     <mkdir dir="/usr/local/pgsql/data_Datanode2"/>
