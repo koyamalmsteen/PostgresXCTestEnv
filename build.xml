@@ -91,16 +91,16 @@
       <arg line="/usr/local/pgsql/bin/initgtm -D /usr/local/pgsql/data_gtm -Z gtm"/>
     </exec>
     <exec executable="sudo">
-      <arg line="/usr/local/pgsql/bin/gtm -D /usr/local/pgsql/data_gtm > logfile 2>&amp;1 &amp;"/>
+      <arg line="/usr/local/pgsql/bin/gtm -D /usr/local/pgsql/data_gtm &gt; logfile 2&gt;&amp;1 &amp;"/>
     </exec>
     <exec executable="sudo">
-      <arg line="/usr/local/pgsql/bin/postgres -X -p 15432 -D /usr/local/pgsql/data_Datanode1 > logfile 2>&amp;1 &amp;"/>
+      <arg line="/usr/local/pgsql/bin/postgres -X -p 15432 -D /usr/local/pgsql/data_Datanode1 &gt; logfile 2&gt;&amp;1 &amp;"/>
     </exec>
     <exec executable="sudo">
-      <arg line="/usr/local/pgsql/bin/postgres -X -p 15433 -D /usr/local/pgsql/data_Datanode2 > logfile 2>&amp;1 &amp;"/>
+      <arg line="/usr/local/pgsql/bin/postgres -X -p 15433 -D /usr/local/pgsql/data_Datanode2 &gt; logfile 2&gt;&amp;1 &amp;"/>
     </exec>
     <exec executable="sudo">
-      <arg line="/usr/local/pgsql/bin/postgres -C -D /usr/local/pgsql/data_coor1 > logfile 2>&amp;1 &amp;"/>
+      <arg line="/usr/local/pgsql/bin/postgres -C -D /usr/local/pgsql/data_coor1 &gt; logfile 2&gt;&amp;1 &amp;"/>
     </exec>
     <exec executable="sudo">
       <arg line="/usr/local/pgsql/bin/psql -C 'CREATE NODE Datanode1 WITH (TYPE = 'Datanode', PORT = 15432)' postgres"/>
