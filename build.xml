@@ -51,16 +51,20 @@
     <exec executable="sudo">
       <arg line="-i -u postgres initdb --no-locale --encoding=UTF-8 --nodename=foo"/>
     </exec>
+    <echo message="HOGE1"/>
     <exec executable="sudo">
       <arg line="-i -u postgres createdb dspace"/>
     </exec>
+    <echo message="HOGE2"/>
     <!-- -->
     <exec executable="sudo">
       <arg line="-i -u postgres initgtm -Z gtm -D /usr/local/pgsql/data_gtm"/>
     </exec>
-    <exec executable="sudo">
+    <echo message="HOGE3"/>
+    <exec executable="sudo" spawn="true">
       <arg line="-i -u postgres gtm_ctl -Z gtm start -D /usr/local/pgsql/data_gtm"/>
     </exec>
+    <echo message="HOGE4"/>
     <!-- -->
     <mkdir dir="/usr/local/pgsql/data_coord1"/>
     <mkdir dir="/usr/local/pgsql/data_Datanode1"/>
