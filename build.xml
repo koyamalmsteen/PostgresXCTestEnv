@@ -8,6 +8,7 @@
 
   <target name="clean">
     <delete dir="/usr/local/pgsql"/>
+    <delete dir="${src}/pgxc"/>
   </target>
 
   <target name="init">
@@ -35,10 +36,10 @@
       <arg line=""/>
     </exec>
     <exec executable="make" dir="${src}/pgxc">
-      <arg line=""/>
+      <arg line="world"/>
     </exec>
     <exec executable="make" dir="${src}/pgxc">
-      <arg line="install"/>
+      <arg line="install-world"/>
     </exec>
     <!-- -->
     <exec executable="adduser">
@@ -64,13 +65,13 @@
     </exec>
     <!-- -->
     <exec executable="sudo">
-      <arg line="-i -u postgres initdb -D /usr/local/pgsql/data_coord1 --no-locale --encoding=UTF-8 --nodename coord1"/>
+      <arg line="-i -u postgres initdb -D /usr/local/pgsql/data_coord1 --no-locale --encoding=UTF-8 --nodename=coord1"/>
     </exec>
     <exec executable="sudo">
-      <arg line="-i -u postgres initdb -D /usr/local/pgsql/data_datanode1 --no-locale --encoding=UTF-8 --nodename datanode1"/>
+      <arg line="-i -u postgres initdb -D /usr/local/pgsql/data_datanode1 --no-locale --encoding=UTF-8 --nodename=datanode1"/>
     </exec>
     <exec executable="sudo">
-      <arg line="-i -u postgres initdb -D /usr/local/pgsql/data_datanode2 --no-locale --encoding=UTF-8 --nodename datanode2"/>
+      <arg line="-i -u postgres initdb -D /usr/local/pgsql/data_datanode2 --no-locale --encoding=UTF-8 --nodename=datanode2"/>
     </exec>
     <exec executable="sudo">
       <arg line="-i -u postgres initgtm -D /usr/local/pgsql/data_gtm -Z gtm"/>
@@ -80,31 +81,31 @@
       <arg line="-i -u postgres gtm_ctl -Z gtm -D /usr/local/pgsql/data_gtm -l logfile start"/>
     </exec>
     <exec executable="sudo">
-<!--
       <arg line="-i -u postgres pg_ctl -Z coordinator -D /usr/local/pgsql/data_datanode1 -o '-p 15432' -l logfile start"/>
--->
-      <arg line="-i -u postgres pg_ctl -Z coordinator -D /usr/local/pgsql/data_datanode1 -l logfile start"/>
+<!--
+   <arg line="-i -u postgres pg_ctl -Z coordinator -D /usr/local/pgsql/data_datanode1 -l logfile start"/>-->
     </exec>
     <exec executable="sudo">
-<!--
-      <arg line="-i -u postgres pg_ctl -Z coordinator -D /usr/local/pgsql/data_datanode2 -o '-p 15433' -l logfile start"/>
--->
+      <!--
+	 <arg line="-i -u postgres pg_ctl -Z coordinator -D /usr/local/pgsql/data_datanode2 -o '-p 15433' -l logfile start"/>
+	 -->
       <arg line="-i -u postgres pg_ctl -Z coordinator -D /usr/local/pgsql/data_datanode2 -l logfile start"/>
     </exec>
-    <exec executable="sudo" spawn="true">
-<!--
-      <arg line="-i -u postgres postgres -C -D /usr/local/pgsql/data_coord1 &gt;logfile 2&gt;&amp;1"/>
--->
+    <exec executable="sudo">
+      <!--
+	 <arg line="-i -u postgres postgres -C -D /usr/local/pgsql/data_coord1 &gt;logfile 2&gt;&amp;1"/>
+	 -->
       <arg line="-i -u postgres pg_ctl -Z coordinator -D /usr/local/pgsql/data_coord1 -l logfile start"/>
     </exec>
-    <echo message="HOGE"/>
     <!-- -->
-    <exec executable="sudo">
 <!--
+    <exec executable="sudo">
       <arg line="-i -u postgres psql -c &quot;CREATE NODE datanode1 WITH (TYPE='datanode', PORT=15432)&quot; postgres"/>
 -->
-      <arg line="-i -u postgres psql -c &quot;CREATE NODE datanode1 WITH TYPE='datanode' WITH PORT=15432 &quot; postgres"/>
+<!--
+      <arg line="-i -u postgres psql -c &quot;CREATE NODE datanode1 WITH TYPE='datanode' WITH PORT=15432 &quot; postgres "/>
     </exec>
+-->
 <!--
     <exec executable="sudo">
       <arg line="-i -u postgres psql -c &quot;CREATE NODE datanode2 WITH (TYPE='datanode', PORT=15433)&quot; postgres"/>
