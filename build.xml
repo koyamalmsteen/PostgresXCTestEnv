@@ -4,13 +4,7 @@
   <property name="hostname" value="${env.HOSTNAME}"/>
   <property name="home" value="${env.HOME}"/>
 <!-- -->
-  <property name="pglib" value="${env.PGLIB}"/>
-  <property name="ld_library_path" value="${LD_LIBRARY_PATH}"/>
-  <property name="path" value="${env.PATH}"/>
-  <property name="manpath" value="${env.MANPATH}"/>
-  <property name="pgdata" value="${env.PGDATA}"/>
-<!-- -->
-  <target name="all" depends="init, install"/>
+  <target name="all" depends="clean, init, install"/>
 
   <target name="clean">
     <delete dir="/usr/local/pgsql"/>
@@ -18,15 +12,7 @@
   </target>
 
   <target name="init">
-    <echo message="${have.pgdata}"/>
-    <echo file="/etc/profile" message="#&#x0A;" append="yes"/>
-    <echo file="/etc/profile" message="export PGLIB=/usr/local/pgsql/lib&#x0A;" append="yes"/>
-    <echo file="/etc/profile" message="export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:$PGLIB&#x0A;" append="yes"/>
-    <echo file="/etc/profile" message="export PATH=${PATH}:/usr/local/pgsql/bin&#x0A;" append="yes"/>
-    <echo file="/etc/profile" message="export MANPATH=${MANPATH}:/usr/local/pgsql/man&#x0A;" append="yes"/>
-    <echo file="/etc/profile" message="export PGDATA=/usr/local/pgsql/data&#x0A;" append="yes"/>
-    <!-- -->
-    <antcall target="clean"/>
+    <copy file="conf/profile" tofile="/etc/profile"/>
     <!-- -->
     <exec executable="yum">
       <arg line="-y install gcc readline-devel zlib-devel flex bison"/>
