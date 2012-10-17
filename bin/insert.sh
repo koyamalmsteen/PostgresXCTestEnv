@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-psql -c "CREATE TABLE TEST (str String)" dspace
-for i in $(seq 1 1000000)
+psql -c "CREATE TABLE TEST (ID int);" dspace
+for i in $(seq 1 1000)
 do
-psql -c "INSERT INT TEST VALUES('HOGE')" dspace
+psql -q -c "INSERT INTO TEST VALUES(666);" dspace
 done
