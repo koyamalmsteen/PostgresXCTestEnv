@@ -84,13 +84,16 @@
     </exec>
     <!-- -->
     <exec executable="sudo">
-      <arg line="-i -u postgres psql -c &quot;CREATE NODE datanode1 WITH (TYPE='datanode', PORT=15432)&quot; postgres"/>
+      <arg line="-i -u postgres"/>
+      <arg value="psql -c &quot;CREATE NODE datanode1 WITH (TYPE=&apos;datanode&apos;, PORT=15432)&quot; postgres"/>
     </exec>
     <exec executable="sudo">
-      <arg line="-i -u postgres psql -c &quot;CREATE NODE datanode2 WITH (TYPE='datanode', PORT=15433)&quot; postgres"/>
+      <arg line="-i -u postgres"/>
+      <arg value="psql -c &quot;CREATE NODE datanode2 WITH (TYPE=&apos;datanode&apos;, PORT=15433)&quot; postgres"/>
     </exec>
     <exec executable="sudo">
-      <arg line="-i -u postgres psql -c &quot;SELECT pgxc_pool_reload()&quot; postgres"/>
+      <arg line="-i -u postgres"/>
+      <arg value="psql -c &quot;SELECT pgxc_pool_reload()&quot; postgres"/>
     </exec>
     <!-- -->
     <exec executable="sudo">
