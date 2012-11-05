@@ -5,19 +5,7 @@
   <property name="hostname" value="${env.HOSTNAME}"/>
   <property name="home" value="${env.HOME}"/>
 
-  <condition property="have.proxy.host">
-    <isset property="proxy.host"/>
-  </condition>
-
-  <condition property="have.proxy.port">
-    <isset property="proxy.port"/>
-  </condition>
-
   <target name="all" depends="clean, init, install"/>
-
-  <target name="proxy">
-    <setproxy proxyhost="${proxy.host}" proxyport="${proxy.port}"/>
-  </target>
 
   <target name="clean">
     <delete dir="/usr/local/pgsql"/>
