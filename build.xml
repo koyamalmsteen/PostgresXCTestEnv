@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <project name="Postgres-XC Test Environment" default="all" basedir=".">
-  <property file="build.properties"/>
   <property environment="env"/>
+  <property file="build.properties"/>
   <property name="hostname" value="${env.HOSTNAME}"/>
   <property name="home" value="${env.HOME}"/>
 
