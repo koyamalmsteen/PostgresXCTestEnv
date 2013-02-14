@@ -7,12 +7,12 @@
 
   <target name="all" depends="clean, init, install"/>
 
-  <target name="clean">
+  <target name="clean" description="Clean all">
     <delete dir="/usr/local/pgsql"/>
     <delete dir="${src}/pgxc"/>
   </target>
 
-  <target name="init">
+  <target name="init" description="Initialize.">
     <copy file="conf/profile" tofile="/etc/profile"/>
     <!-- -->
     <exec executable="yum">
@@ -26,7 +26,7 @@
     </exec>
   </target>
 
-  <target name="install">
+  <target name="install" description="Install pgxc.">
     <exec executable="./configure" dir="${src}/pgxc">
       <arg line=""/>
     </exec>
