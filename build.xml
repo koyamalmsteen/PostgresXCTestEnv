@@ -20,6 +20,7 @@
     </exec>
     <mkdir dir="${src}"/>
     <get src="${src_postgres_xc}" dest="${dst_postgres_xc}" usetimestamp="true"/>
+    <!-- To stay away to use untar task because untar task for ant 1.7.1 is buggy. -->
     <exec dir="${src}" executable="tar">
       <arg line="zxf ${postgres_xc}"/>
     </exec>
